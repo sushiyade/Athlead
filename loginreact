@@ -1,0 +1,32 @@
+import React, { useState } from 'react';
+
+function App() {
+  const [loggedInUser, setLoggedInUser] = useState('');
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const username = e.target.elements.username.value;
+    setLoggedInUser(username);
+    e.target.reset();
+  };
+
+  return (
+    <div className="container">
+      <h1>Sports Matching and Booking System</h1>
+
+      <h2>Login</h2>
+      <form onSubmit={handleLogin}>
+        <input type="text" name="username" placeholder="Username" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <input type="submit" value="Login" />
+      </form>
+
+      <h2>Match and Booking System</h2>
+      <p>Welcome, {loggedInUser ? loggedInUser : 'Guest'}!</p>
+
+      {/* Add your matching and booking system components here */}
+    </div>
+  );
+}
+
+export default App;
