@@ -1,8 +1,9 @@
-import './globals.css'
+import '../../globals.css'
+import Link from 'next/link';
 
 import { getAuth } from "firebase/auth";
 
-const signUp = () => {
+const page = () => {
     return (
       <div>
         <section className="bg-gray-50 dark:bg-gray-900">
@@ -41,6 +42,9 @@ const signUp = () => {
                     </div>
                     <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign up</button>
                 </form>
+                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                      Already have an account? <Link href="/Login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Log in</Link>
+                  </p>
             </div>
         </div>
     </div>
@@ -49,4 +53,4 @@ const signUp = () => {
     );
   };
   
-  export default signUp;
+  export default page;
