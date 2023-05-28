@@ -1,7 +1,50 @@
+'use client';
 import '../../globals.css'
 import Link from 'next/link';
 
-import { getAuth } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
+
+
+const firebaseConfig = {
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    projectId: process.env.PROJECT_ID,
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGING_SENDER_ID,
+    appId: process.env.APP_ID,
+    measurementId: process.env.MEASUREMENT_ID
+};  
+
+const app = initializeApp(firebaseConfig);
+
+
+const auth = getAuth();
+
+const handleSignUp = (event) => {
+  event.preventDefault();
+    const email = event.target.email.value;
+    const password = event.target.password.value;
+    const passwordRepeat = event.target.passwordrepeat.value;
+    if (password !== passwordRepeat) {
+        // Display an error message or handle the password mismatch
+        return;
+    }
+
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+        // Account creation successful
+        console.log("Account Created")
+        const user = userCredential.user;
+        // nav to Homepage (not done)
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // Handle the error, e.g., display an error message to the user
+    });
+};
+
 
 const page = () => {
     return (
@@ -17,7 +60,7 @@ const page = () => {
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                     Create a new account
                 </h1>
-                <form className="space-y-4 md:space-y-6" action="#">
+                <form className="space-y-4 md:space-y-6" action="#" onSubmit={handleSignUp}>
                     <div>
                         <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                         <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="NUSNETID@u.nus.edu" required />

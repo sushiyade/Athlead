@@ -1,3 +1,4 @@
+'use client';
 import '../../globals.css'
 
 
@@ -12,10 +13,11 @@ import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-import { getAuth } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { log } from 'console';
+
 
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
@@ -31,9 +33,31 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 //Initialize Firebase Authentication and get a reference to the service
-const auth = getAuth(app);
+const auth = getAuth();
 
 const page = () => {
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const email = event.target.email.value;
+    const password = event.target.password.value;
+  
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Login successful
+        const user = userCredential.user;
+        console.log('Logged in user:', user);
+        // Redirect to Homepage (not done)
+      })
+      .catch((error) => {
+        // Login error
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('Login error:', errorMessage);
+      });
+  };
+
+
   return (
     <div>
       <section className="bg-gray-50 dark:bg-gray-900">
@@ -47,7 +71,7 @@ const page = () => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   Sign in to your account
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form className="space-y-4 md:space-y-6" action="#" onSubmit={handleLogin}>
                   <div>
                       <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                       <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="NUSNETID@u.nus.edu" required />
@@ -81,4 +105,3 @@ const page = () => {
 };
 
 export default page;
-
