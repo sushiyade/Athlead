@@ -1,6 +1,5 @@
 'use client'
 import React from "react";
-// import signUp from "@/firebase/auth/signup";
 import signUp from "../Firebase/auth/signUp"
 import { useRouter } from 'next/navigation'
 
@@ -22,6 +21,7 @@ function Page() {
         console.log(result)
         return router.push("/admin")
     }
+    
     return (<div className="wrapper">
         <div className="form-wrapper">
             <h1 className="mt-60 mb-30">Sign up</h1>
